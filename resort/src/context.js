@@ -20,15 +20,15 @@ class RoomProvider extends Component {
             featuredRooms,
             sortedRooms: rooms,
             loading: false
-        })
+        });
     }
 
     formatData(items) {
         let tempItems = items.map(item => {
-            let id = item.sys.id
-            let images = item.fields.images.map(images => images.fields.file.url)
+            let id = item.sys.id;
+            let images = item.fields.images.map(image => image.fields.file.url);
 
-            let room = { ...item.fields, id, images }
+            let room = { ...item.fields, id, images };
             return room;
         })
         return tempItems;
@@ -45,4 +45,4 @@ class RoomProvider extends Component {
 
 const RoomConsumer = RoomContext.Consumer;
 
-export { RoomConsumer, RoomContext, RoomProvider }
+export { RoomConsumer, RoomContext, RoomProvider };
