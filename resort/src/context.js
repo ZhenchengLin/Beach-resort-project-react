@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import items from "./data"; // this is the data that we are accessing for later use
+import Client from './contentful'
+Client.getEntries({
+    content_type: "beachResortRoom"
+}).then(response => console.log(response.items)); 
 const RoomContext = React.createContext();
 class RoomProvider extends Component {
     state = {
@@ -19,33 +23,46 @@ class RoomProvider extends Component {
     };
 
     // getData{} later to use
+    getData = async () => {
+        try{
+            let response = await Client.getEntries({
+                content_type: "beachResortRoom",
+                order: "fields.price"
+            });
+            let rooms = this.formatData(response.items);
+            let featuredRooms = rooms.filter(room => room.featured === true);
+        
+            // Get min and max prices
+            let prices = rooms.map(item => item.price);
+            let minPrice = Math.min(...prices); 
+            let maxPrice = Math.max(...prices); 
+        
+            // Get min and max sizes
+            let sizes = rooms.map(item => item.size);
+            let minSize = Math.min(...sizes);
+            let maxSize = Math.max(...sizes);
+        
+            this.setState({
+                rooms,
+                featuredRooms,
+                sortedRooms: rooms,
+                loading: false,
+                minPrice,  
+                maxPrice,  
+                minSize,
+                maxSize,
+                price: maxPrice, 
+                size: maxSize
+            });
+
+        }catch (error) {
+            console.log("Error fetching data from Contentful:", error);
+        }
+        
+    }
 
     componentDidMount() {
-        let rooms = this.formatData(items);
-        let featuredRooms = rooms.filter(room => room.featured === true);
-    
-        // Get min and max prices
-        let prices = rooms.map(item => item.price);
-        let minPrice = Math.min(...prices); 
-        let maxPrice = Math.max(...prices); 
-    
-        // Get min and max sizes
-        let sizes = rooms.map(item => item.size);
-        let minSize = Math.min(...sizes);
-        let maxSize = Math.max(...sizes);
-    
-        this.setState({
-            rooms,
-            featuredRooms,
-            sortedRooms: rooms,
-            loading: false,
-            minPrice,  
-            maxPrice,  
-            minSize,
-            maxSize,
-            price: maxPrice, 
-            size: maxSize
-        });
+        this.getData()
     }
     
 
