@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import items from "./data"; // this is the data that we are accessing for later use
+// import items from "./data"; // this is the data that we are accessing for later use
 import Client from './contentful'
 Client.getEntries({
     content_type: "beachResortRoom"
