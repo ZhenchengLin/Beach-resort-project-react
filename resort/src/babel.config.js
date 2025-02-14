@@ -1,9 +1,8 @@
+// babel.config.js
 module.exports = {
-    presets: [
-      'react-app'
-    ],
+    presets: ['react-app'],
     plugins: [
-      // If you already added the missing plugin:
+      // any plugins you need
       '@babel/plugin-proposal-private-property-in-object'
     ]
   };

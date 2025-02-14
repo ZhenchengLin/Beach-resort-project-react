@@ -1,10 +1,8 @@
-// jest.config.js
 module.exports = {
-    // Use babel-jest to transform your files
     transform: {
-      "^.+\\.[jt]sx?$": "babel-jest",
+      "^.+\\.(js|jsx|mjs)$": "babel-jest",
     },
-    // Exclude all node_modules except contentful (you can add others if needed)
+    // Tell Jest to transform contentful even though it’s in node_modules
     transformIgnorePatterns: [
       "/node_modules/(?!(contentful)/)"
     ],
